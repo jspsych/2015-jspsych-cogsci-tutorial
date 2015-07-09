@@ -27,6 +27,9 @@ This folder contains the `random-number` plugin example and a simple experiment 
 
 ## Other helpful links
 
+### jsPsych project
+[github.com/jodeleeuw/jsPsych](https://github.com/jodeleeuw/jsPsych)
+
 ### jsPsych documentation
 [docs.jspsych.org](http://docs.jspsych.org)
 

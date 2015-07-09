@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head>
+  <title>Advanced Patterns: Event Handlers</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="jspsych-4.3/jspsych.js"></script>
+  <script src="jspsych-4.3/plugins/jspsych-single-stim.js"></script>
+  <link href="jspsych-4.3/css/jspsych.css" rel="stylesheet"></link>
+</head>
+<body>
+</body>
+<script>
+var response_trial = {
+  type: 'single-stim',
+  stimuli: ['Press P!'],
+  is_html: true,
+  on_finish: function(data){
+    var is_correct = (data.key_press == 80);
+    jsPsych.data.addDataToLastTrial({
+      correct: is_correct
+    });
+  }
+}
+
+jsPsych.init({
+  experiment_structure: [response_trial],
+  on_finish: function() {jsPsych.data.displayData();}
+});
+</script>
+</html>

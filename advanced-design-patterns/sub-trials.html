@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<head>
+  <title>Advanced Patterns: Sub-trials</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="jspsych-4.3/jspsych.js"></script>
+  <script src="jspsych-4.3/plugins/jspsych-single-stim.js"></script>
+  <link href="jspsych-4.3/css/jspsych.css" rel="stylesheet"></link>
+</head>
+<body>
+</body>
+<script>
+var timeline = [];
+var words = ['dog','cat','rog','gat'];
+
+var fixation_trial = {
+  type: 'single-stim',
+  stimuli: ['<p style="text-align:center">+</p>'],
+  is_html: true,
+  timing_response: 500,
+  timing_post_trial: 0,
+  choices: 'none'
+}
+
+for(var i=0; i<words.length; i++){
+
+  timeline.push(fixation_trial);
+
+  timeline.push({
+    type: 'single-stim',
+    stimuli: ['<p style="text-align:center">'+words[i]+'</p>'],
+    timing_response: 2000,
+    choices: ['y','n'],
+    is_html: true,
+  });
+}
+
+jsPsych.init({
+  experiment_structure: timeline
+});
+</script>
+</html>
