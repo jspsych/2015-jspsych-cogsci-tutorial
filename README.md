@@ -25,6 +25,10 @@ The lexical decision task example. There are three versions of the experiment in
 
 This folder contains the `random-number` plugin example and a simple experiment that uses the plugin.
 
+### advanced-design-patterns
+
+Working examples of the "advanced design patterns" covered in the tutorial. These are examples that highlight different programming strategies for getting jspsych to do more advanced tasks.
+
 ## Other helpful links
 
 ### jsPsych project
