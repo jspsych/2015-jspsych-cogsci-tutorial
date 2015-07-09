@@ -1,5 +1,5 @@
 # Programming Online Experiments with jsPsych
-## Tutorial presented at the 2015 Annual Meeting of the Cognitive Science Society
+#### Tutorial presented at the 2015 Annual Meeting of the Cognitive Science Society
 
 This repository contains materials for the tutorial on jspsych at the 2015 CogSci meeting. The materials are intended to accompany the presentation, but you might find them useful even if you didn't attend the session.
 
