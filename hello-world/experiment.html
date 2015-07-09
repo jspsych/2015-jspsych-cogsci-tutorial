@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head>
+  <title>Hello world experiment</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="jspsych-4.3/jspsych.js"></script>
+  <script src="jspsych-4.3/plugins/jspsych-text.js"></script>
+  <link href="jspsych-4.3/css/jspsych.css" rel="stylesheet"></link>
+</head>
+<body>
+</body>
+<script>
+var hello_trial = {
+  type: 'text',
+  text: 'hello, world!'
+}
+
+jsPsych.init({
+  experiment_structure: [hello_trial]
+});
+</script>
+</html>

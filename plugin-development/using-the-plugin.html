@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+<head>
+  <title>New plugin example</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="jspsych-4.3/jspsych.js"></script>
+  <script src="jspsych-random-number.js"></script>
+  <link href="jspsych-4.3/css/jspsych.css" rel="stylesheet"></link>
+</head>
+<body>
+</body>
+<script>
+var random_number_trial = {
+  type: 'random-number',
+  multiplier: 15
+}
+
+jsPsych.init({
+  experiment_structure: [random_number_trial],
+  on_finish: function() { jsPsych.data.displayData(); }
+});
+</script>
+</html>

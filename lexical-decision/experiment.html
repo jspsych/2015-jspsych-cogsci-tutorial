@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+<head>
+  <title>Hello world experiment</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="jspsych-4.3/jspsych.js"></script>
+  <script src="jspsych-4.3/plugins/jspsych-instructions.js"></script>
+  <script src="jspsych-4.3/plugins/jspsych-single-stim.js"></script>
+  <link href="jspsych-4.3/css/jspsych.css" rel="stylesheet"></link>
+</head>
+<body>
+  <div id="jspsych-target"></div>
+</body>
+<script>
+/* experiment parameters */
+var max_response_time = 2500;
+
+var low_frequency_words = ['cove','turf','twig','foyer','denim'];
+var high_frequency_words = ['chair','city','girl','food','dark'];
+var nonwords = ['cowe','turv','twif','foger','dewim','thair','ciny','birl','rood','zark'];
+
+/* create the experiment timeline */
+var timeline = [];
+
+/* instructions */
+var instructions = {
+  type: 'instructions',
+  pages: ['<p>You are going to see a series of individual words, some of which are' +
+    ' actual English words, while others are nonsense words that look like '+
+    'English words. Your job is to indicate whether the word is a real English '+
+    'word as quickly and accurately as you can.</p>'+
+    '<p style="font-weight:bold;">Press Y if the word is an English word.</p>'+
+    '<p style="font-weight:bold;">Press N if the word is not an English word.</p>'+
+    '<p>Click the button below to begin.</p>'],
+  allow_keys: false,
+  show_clickable_nav: true
+}
+
+timeline.push(instructions);
+
+/* create test trials */
+
+var low_frequency_trials = [];
+for(var i in low_frequency_words){
+  low_frequency_trials.push({
+    type: 'single-stim',
+    stimuli: ['<p style="text-align:center; font-size:32px;">'+low_frequency_words[i]+'</p>'],
+    timing_response: max_response_time,
+    choices: ['y','n'],
+    is_html: true,
+    data: { word_type: 'low' }
+  });
+}
+
+var high_frequency_trials = [];
+for(var i in high_frequency_words){
+  high_frequency_trials.push({
+    type: 'single-stim',
+    stimuli: ['<p style="text-align:center; font-size:32px;">'+high_frequency_words[i]+'</p>'],
+    timing_response: max_response_time,
+    choices: ['y','n'],
+    is_html: true,
+    data: { word_type: 'high' }
+  });
+}
+
+var nonword_trials = [];
+for(var i in nonwords){
+  nonword_trials.push({
+    type: 'single-stim',
+    stimuli: ['<p style="text-align:center; font-size:32px;">'+nonwords[i]+'</p>'],
+    timing_response: max_response_time,
+    choices: ['y','n'],
+    is_html: true,
+    data: { word_type: 'nonword' }
+  });
+}
+
+var all_trials = low_frequency_trials.concat(high_frequency_trials, nonword_trials);
+all_trials = jsPsych.randomization.shuffle(all_trials);
+
+timeline = timeline.concat(all_trials);
+
+/* start the experiment */
+
+jsPsych.init({
+  display_element: $('#jspsych-target'),
+  experiment_structure: timeline,
+  on_finish: function(){ jsPsych.data.displayData('csv'); }
+});
+</script>
+</html>

@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+  <title>Hello world experiment</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="jspsych-4.3/jspsych.js"></script>
+  <script src="jspsych-4.3/plugins/jspsych-instructions.js"></script>
+  <script src="jspsych-4.3/plugins/jspsych-single-stim.js"></script>
+  <link href="jspsych-4.3/css/jspsych.css" rel="stylesheet"></link>
+</head>
+<body>
+  <div id="jspsych-target"></div>
+</body>
+<script>
+/* experiment parameters */
+var max_response_time = 2500;
+
+var low_frequency_words = ['cove','turf','twig','foyer','denim'];
+var high_frequency_words = ['chair','city','girl','food','dark'];
+var nonwords = ['cowe','turv','twif','foger','dewim','thair','ciny','birl','rood','zark'];
+
+/* create the experiment timeline */
+var timeline = [];
+
+/* instructions */
+var instructions = {
+  type: 'instructions',
+  pages: ['<p>You are going to see a series of individual words, some of which are' +
+    ' actual English words, while others are nonsense words that look like '+
+    'English words. Your job is to indicate whether the word is a real English '+
+    'word as quickly and accurately as you can.</p>'+
+    '<p style="font-weight:bold;">Press Y if the word is an English word.</p>'+
+    '<p style="font-weight:bold;">Press N if the word is not an English word.</p>'+
+    '<p>Click the button below to begin.</p>'],
+  allow_keys: false,
+  show_clickable_nav: true
+}
+
+timeline.push(instructions);
+
+/* start the experiment */
+
+jsPsych.init({
+  display_element: $('#jspsych-target'),
+  experiment_structure: timeline
+});
+</script>
+</html>
