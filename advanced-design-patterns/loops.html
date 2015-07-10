@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+<head>
+  <title>Advanced Patterns: Event Handlers</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="jspsych-4.3/jspsych.js"></script>
+  <script src="jspsych-4.3/plugins/jspsych-categorize.js"></script>
+  <script src="jspsych-4.3/plugins/jspsych-text.js"></script>
+  <link href="jspsych-4.3/css/jspsych.css" rel="stylesheet"></link>
+</head>
+<body>
+</body>
+<script>
+
+var categorize_stimuli = [
+  {stimulus: '<p class="center-content">A</p>', key_answer: 76, text_answer: 'letter'},
+  {stimulus: '<p class="center-content">B</p>', key_answer: 76, text_answer: 'letter'},
+  {stimulus: '<p class="center-content">C</p>', key_answer: 76, text_answer: 'letter'},
+  {stimulus: '<p class="center-content">1</p>', key_answer: 78, text_answer: 'number'},
+  {stimulus: '<p class="center-content">2</p>', key_answer: 78, text_answer: 'number'},
+  {stimulus: '<p class="center-content">3</p>', key_answer: 78, text_answer: 'number'}
+];
+
+var block_params = jsPsych.randomization.repeat(categorize_stimuli, 1, true);
+
+var instructions = {
+  type: 'text',
+  text: '<p>You will see six characters that are either letters or numbers. '+
+    'Press L if the character is a letter; press N if the character is a number. '+
+    'If you make a mistake, then the six trials will repeat again, until you answer '+
+    'all six correctly in a row.</p>'
+}
+
+var training_trials = {
+  type: 'categorize',
+  stimuli: block_params.stimulus,
+  is_html: true,
+  key_answer: block_params.key_answer,
+  choices: [76,78],
+  text_answer: block_params.text_answer,
+  timing_feedback_duration: 1000,
+  timing_post_trial: 250,
+  correct_text: "<p class='center-content'>Correct. This character is a %ANS%.</p>",
+  incorrect_text: "<p class='center-content'>Incorrect. This character is a %ANS%.</p>",
+  prompt: "<p class='center-content'>Press L if the character is a letter. Press N if the character is a number.</p>",
+  data: {test: true},
+  randomize_order: true
+};
+
+var training_loop = {
+  chunk_type: 'while',
+  timeline: [training_trials],
+  continue_function: function(data){
+    for(i in data){
+      if(data[i].correct == false){
+        return true;
+      }
+    }
+    return false;
+  }
+}
+
+var congrats = {
+  type: 'text',
+  text: '<p>Good job! You answered all six correctly.</p>'
+}
+
+jsPsych.init({
+  experiment_structure: [instructions, training_loop, congrats],
+  on_finish: function() {jsPsych.data.displayData('csv');}
+});
+</script>
+</html>
