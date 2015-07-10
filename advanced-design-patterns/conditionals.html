@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+<head>
+  <title>Advanced Patterns: Sub-trials</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="jspsych-4.3/jspsych.js"></script>
+  <script src="jspsych-4.3/plugins/jspsych-text.js"></script>
+  <script src="jspsych-4.3/plugins/jspsych-single-stim.js"></script>
+  <link href="jspsych-4.3/css/jspsych.css" rel="stylesheet"></link>
+</head>
+<body>
+</body>
+<script>
+var timeline = [];
+
+var instructions = {
+  type: 'text',
+  text: '<p>You will see either an English word or a nonsense word. Press Y '+
+    'if you see a word. Press N if you see a nonsense word.</p><p>Press any key '+
+    'to begin</p>'
+}
+
+var fixation_trial = {
+  type: 'single-stim',
+  stimuli: ['<p style="text-align:center">+</p>'],
+  is_html: true,
+  timing_response: 500,
+  timing_post_trial: 0,
+  choices: 'none'
+}
+
+var test_trial = {
+  type: 'single-stim',
+  stimuli: ['<p style="text-align:center">city</p>'],
+  timing_response: 2000,
+  choices: ['y','n'],
+  is_html: true,
+}
+
+var feedback_trial = {
+  type: 'text',
+  text: 'You got the last question wrong.'
+}
+
+var feedback_chunk = {
+  chunk_type: 'if',
+  timeline: [feedback_trial],
+  conditional_function: function(){
+    var data = jsPsych.data.getLastTrialData();
+    if(data.key_press == 89){
+      return false;
+    } else {
+      return true;
+    }
+  }
+}
+
+var end = {
+  type: 'text',
+  text: 'Experiment complete.'
+}
+
+jsPsych.init({
+  experiment_structure: [instructions, fixation_trial, test_trial, feedback_chunk, end]
+});
+</script>
+</html>
