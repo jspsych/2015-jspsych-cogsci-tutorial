@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+<head>
+  <title>Advanced Patterns: Event Handlers</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="jspsych-4.3/jspsych.js"></script>
+  <script src="jspsych-4.3/plugins/jspsych-categorize.js"></script>
+  <script src="jspsych-4.3/plugins/jspsych-text.js"></script>
+  <link href="jspsych-4.3/css/jspsych.css" rel="stylesheet"></link>
+</head>
+<body>
+</body>
+<script>
+
+var categorize_stimuli = [
+  {stimulus: 'A', key_answer: 76, text_answer: 'letter'},
+  {stimulus: 'B', key_answer: 76, text_answer: 'letter'},
+  {stimulus: 'C', key_answer: 76, text_answer: 'letter'},
+  {stimulus: '1', key_answer: 78, text_answer: 'number'},
+  {stimulus: '2', key_answer: 78, text_answer: 'number'},
+  {stimulus: '3', key_answer: 78, text_answer: 'number'}
+];
+
+categorize_stimuli = jsPsych.randomization.shuffle(categorize_stimuli);
+
+var timeline = [];
+
+for(var i in categorize_stimuli){
+  var trial = {
+    type: 'categorize',
+    stimuli: ['<p class="center-content">'+categorize_stimuli[i].stimulus+'</p>'],
+    is_html: true,
+    key_answer: [categorize_stimuli[i].key_answer],
+    choices: [76,78],
+    text_answer: [categorize_stimuli[i].text_answer],
+    timing_feedback_duration: 1000,
+    timing_post_trial: 250,
+    correct_text: "<p class='center-content'>Correct. This character is a %ANS%.</p>",
+    incorrect_text: "<p class='center-content'>Incorrect. This character is a %ANS%.</p>",
+    prompt: "<p class='center-content'>Press L if the character is a letter. Press N if the character is a number.</p>",
+    data: {test: true}
+  };
+
+  timeline.push(trial);
+}
+
+
+var show_score = {
+  type: 'text',
+  text: function(){
+    var alldata = jsPsych.data.getData();
+    var correct_responses = 0;
+    var total_responses = 0;
+    for(i in alldata){
+      if(alldata[i].test == true){
+        total_responses++;
+        if(alldata[i].correct == true){
+          correct_responses++;
+        }
+      }
+    }
+    var p = correct_responses / total_responses;
+    var percent = Math.round(p*100);
+    return "You have answered "+percent+"%"+
+      " of the questions correctly so far.";
+  }
+};
+
+timeline.push(show_score);
+
+jsPsych.init({
+  experiment_structure: timeline,
+  on_finish: function() {jsPsych.data.displayData('csv');}
+});
+</script>
+</html>
